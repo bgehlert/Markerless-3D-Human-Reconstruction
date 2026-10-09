@@ -204,9 +204,9 @@ bash data/download_mamma_iphone.sh--meta--pred--videos--indoors
 
 ## Alternative Installation Process
 An environment.yml file has been prepared where the exact software environment can be replicated, avoiding the extensive library installations. Ensure that WSL is used as the main terminal and Miniconda/Anaconda has been installed within WSL. Detailed steps are provided earlier in this README.md file.
-Create the environment (includes PyTorch+cu124 and all 216 dependencies):
-Download the environment.yml file available here and document where it is stored on your desktop.
-Change directory to the file location by replacing `path/to/your/project-folder` with your specific file location.
+Create the environment (includes PyTorch+cu124 and all 216 dependencies) by [downloading the environment.yml file](environment.yml).
+
+Document where it is stored on your desktop. Change directory to the file location by replacing `path/to/your/project-folder` with your specific file location.
 ```bash
 cd path/to/your/project-folder
 ```
