@@ -1,5 +1,5 @@
 # MAMMA Installation and Demo
-The following README.md file outlines the installation steps, commands and configuration, input and output descriptions, and performance metric and notes regarding the initial implementation of MAMMA (Markerless Accurate Multi-person Motion Acquisition).
+The following README.md file outlines the installation steps, and required configurations and downloads regarding the initial implementation of MAMMA (Markerless Accurate Multi-person Motion Acquisition).
 
 | Environment Element    | Version/Model |
 | -------- | ------- |
@@ -9,12 +9,12 @@ The following README.md file outlines the installation steps, commands and confi
 | CUDA  | 12.4 |
 | cuDNN  | 90100 |
 | MAMMA GitHub Repository | v1.0.1 |
-| Commit ID | 588492f |
+| GitHub Commit ID | 588492f |
 
 ## Installation Steps
 
 
-MAMMA installation requires a **NVIDIA GPU** and **CUDA drivers** for installation and implementation. This is available using the LIMB Lab computer which operates using a **NVIDIA RTX 2000 Ada Generation**. Connect using Windows Remote Desktop Connection as needed. Detailed instructions in connecting remotely are found on the LIMB Lab Wiki.
+MAMMA requires a **NVIDIA GPU** and **CUDA drivers** for installation and implementation. This is available using the LIMB Lab computer which operates using a **NVIDIA RTX 2000 Ada Generation**. Connect using Windows Remote Desktop Connection as required. Detailed instructions in connecting remotely can be found on the LIMB Lab Wiki.
 
 
 ### 1. Host Environment and WSL Setup
@@ -25,11 +25,9 @@ WSL can be downloaded through Anaconda Prompt by executing:
 ```bash
 wsl --install
 ```
-* **Restart:** After installation, restart the computer as prompted.
-* **Credentials:** A new terminal window titled "labadmindy@LWELTE-LB01" will appear. The default Unix user credentials have already been configured:
+* **Restart:** After installation, restart the computer as prompted. A new Unix user account and password can be configured. Alternatively, the LIMB lab credentials are as follows:
   * **Unix user account:** `labadmindy`
   * **Password:** `L1MBlab421!`
-
 
 When installed successfully, the screen will display a green command line. All subsequent steps must be executed entirely inside the WSL Linux environment.
 <img width="1475" height="275" alt="image" src="https://github.com/user-attachments/assets/0119e72d-eb67-4b18-b0b0-111a2ef66e25" />
@@ -96,8 +94,10 @@ Export environmental variables for the active session:
 export CUDA_HOME="$CONDA_PREFIX"
 export PATH="CUDAHOME/bin:PATH"
 ```
-### 5. Runtime Script Environment Fixes
-Creates a filter for Conda manager to handle cleaned execution commands correctly:
+### 5. Optional: Runtime Script Environment Fixes
+The following steps were used to resolve `file not found` errors and may not be required for every installation.
+
+Create a filter for Conda manager to handle cleaned execution commands correctly:
 ```bash
 rm -f ~/.local/bin/conda
 cat << 'EOF' > ~/.local/bin/conda
@@ -116,8 +116,6 @@ EOF
 chmod +x ~/.local/bin/conda
 ```
 
-
-Create workspace paths so that background processing routines can find internal modules across terminal reboots and prevent `file not found` errors:
 ```bash
 echo 'export PYTHONPATH=PYTHONPATH:(pwd)/gui/backend' >> ~/.bashrc
 source ~/.bashrc
@@ -125,10 +123,10 @@ source ~/.bashrc
 
 
 ### 6. Weights Unpacking Patch
-The below step is necessary to trust the `weights` file containing the memory the deep learning model gained during training and refusing to open the file as it would a virus.
+The below step is necessary to trust the `weights` file containing the memory the deep learning model gained during training and avoid locking the file as it would a virus.
 
 
-Open the 2D execution script to patch a weights validation security block:
+Open the 2D execution script to patch a security block:
 ```bash
 nano /home/labadmindy/mamma/landmarks/run_ma_2d.py
 ```
@@ -151,6 +149,7 @@ python -m inference doctor
 Once the inference doctor returns "**`PASS - environment looks healthy.`**", it is safe to run the below command to open the interactive user interface and submit a task.
 <img width="1499" height="603" alt="image" src="https://github.com/user-attachments/assets/5f962744-ed2b-4b09-9c42-524d68bb4cf5" />
 
+Enter the web browser interface with the following command:
 ```bash
 bash gui/scripts/dev.sh
 ```
@@ -170,11 +169,12 @@ If encountering an Out Of Memory (OOM) error when running the demo files, the fo
 ```powershell
 powershell.exe -Command "Set-Content -Path \$env:USERPROFILE\.wslconfig -Value '[wsl2]', 'memory=24GB', 'swap=16GB' -Force"
 ```
-Execute the below command to close the WSL terminal and apply the effective changes. Reopen WSL.
+Execute the below command to close the WSL terminal and apply the effective changes.
 ```bash
 wsl.exe --shutdown
 ```
 
+Reopen WSL.
 ## Downloading Model Weight Files
 Both SMPL-X and MAMMA downloads must be completed before a trial will run successfully.
 
@@ -203,10 +203,10 @@ bash data/download_mamma_iphone.sh--meta--pred--videos--indoors
 3. Enter the previously registered email and password from Step 1 to allow the download to proceed.
 
 ## Alternative Installation Process
-An environment.yml file has been prepared where the exact software environment can be replicated, avoiding the extensive library installations. Ensure that WSL is used as the main terminal and Miniconda/Anaconda has been installed within WSL. Detailed steps are provided earlier in this README.md file.
+An environment.yml file has been prepared where the exact software environment can be replicated, avoiding the extensive library installations above. Ensure that WSL is used as the main terminal and Miniconda/Anaconda has been installed within WSL. Detailed steps are provided earlier in this README.md file.
 Create the environment (includes PyTorch+cu124 and all 216 dependencies) by [downloading the environment.yml file](environment.yml).
 
-Document where it is stored on your desktop. Change directory to the file location by replacing `path/to/your/project-folder` with your specific file location.
+Document where it is stored on the desktop. Change directory to the file location by replacing `path/to/your/project-folder` with the specific file location.
 ```bash
 cd path/to/your/project-folder
 ```
@@ -218,7 +218,7 @@ Activate the environment:
 ```bash
 conda activate mamma
 ```
-Download MAMMA and SMPL-X model weight files using the process outlined in the section above. The web browser interface is now ready to be used.
+Download MAMMA and SMPL-X model weight files using the process outlined in the previous section. The web browser interface is now ready to be used.
 ```bash
 bash gui/scripts/dev.sh
 ```
@@ -230,13 +230,13 @@ Once inside the web browser interface, download the following, located under Pip
 * **MammaNet landmark .ckpt model file**
 
 ## When Reopening
-Follow the below steps when reopening MAMMA after all previous installations have been completed. Note that all the indicated prompts are to be commanded in WSL.
+Follow the below steps when reopening MAMMA after all previous installations have been completed. Note that all the indicated commands are to be executed in WSL.
 
-Move inside the downloaded project folder.
+Move inside the downloaded project folder:
 ```bash
 cd mamma
 ```
-Activate the created MAMMA environment.
+Activate the created MAMMA environment:
 ```bash
 conda activate mamma
 ```
@@ -245,4 +245,4 @@ Open the user-friendly GUI interface. A demo task is ready to be submitted.
 bash gui/scripts/dev.sh
 ```
 
-The Google Chrome browser with the MAMMA interface will open after commanding the above. The terminal must remain open for MAMMA to be interactive.
+The Google Chrome browser with the MAMMA interface will open after executing the above. The terminal must remain open for MAMMA to be interactive.
