@@ -156,6 +156,14 @@ bash gui/scripts/dev.sh
 ```
 <img width="1639" height="981" alt="image" src="https://github.com/user-attachments/assets/dc7c4729-2c2b-46fd-833f-fe146a92695b" />
 
+Once inside the web browser interface, download the following, located under Pipeline assets:
+* **YOLO12x detector**
+* **SAM 2.1 (large)**
+* **SMPL-X locked head**
+* **Downsampled SMPL-X vertices**
+* **MammaNet landmark .ckpt model file**
+<img width="1253" height="685" alt="image" src="https://github.com/user-attachments/assets/47f50bf4-f690-4a1c-910b-f83033e94f83" />
+
 
 ### Optional: WSL Memory Allocation Expansion
 If encountering an Out Of Memory (OOM) error when running the demo files, the following fix can be employed to expand default WSL memory limits:
@@ -194,10 +202,35 @@ bash data/download_mamma_iphone.sh--meta--pred--videos--indoors
 
 3. Enter the previously registered email and password from Step 1 to allow the download to proceed.
 
+## Alternative Installation Process
+An environment.yml file has been prepared where the exact software environment can be replicated, avoiding the extensive library installations. Ensure that WSL is used as the main terminal and Miniconda/Anaconda has been installed within WSL. Detailed steps are provided earlier in this README.md file.
+Create the environment (includes PyTorch+cu124 and all 216 dependencies):
+Download the environment.yml file available here and document where it is stored on your desktop.
+Change directory to the file location by replacing `path/to/your/project-folder` with your specific file location.
+```bash
+cd path/to/your/project-folder
+```
+Replicate the environment that has been already been created.
+```bash
+conda env create -f environment.yml
+```
+Activate the environment:
+```bash
+conda activate mamma
+```
+Download MAMMA and SMPL-X model weight files using the process outlined in the section above. The web browser interface is now ready to be used.
+```bash
+bash gui/scripts/dev.sh
+```
+Once inside the web browser interface, download the following, located under Pipeline assets:
+* **YOLO12x detector**
+* **SAM 2.1 (large)**
+* **SMPL-X locked head**
+* **Downsampled SMPL-X vertices**
+* **MammaNet landmark .ckpt model file**
 
 ## When Reopening
 Follow the below steps when reopening MAMMA after all previous installations have been completed. Note that all the indicated prompts are to be commanded in WSL.
-
 
 Move inside the downloaded project folder.
 ```bash
@@ -207,8 +240,6 @@ Activate the created MAMMA environment.
 ```bash
 conda activate mamma
 ```
-
-
 Open the user-friendly GUI interface. A demo task is ready to be submitted.
 ```bash
 bash gui/scripts/dev.sh
