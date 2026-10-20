@@ -1,15 +1,15 @@
-# DeepMultiCap Installation and Demo
-The following README.md file outlines the installation steps, and required configurations and downloads regarding the initial implementation of DeepMultiCap.
+# DeepMultiCap Installation
+The following README.md file outlines the installation steps, and required configurations and downloads regarding the initial implementation of DeepMultiCap. Note that this installation process creates a unique virtual environment with particular Python and library versions. DeepMultiCap is sensitive to Python and PyTorch versions and uses older versions than some more modern programs require. Ensure all installation steps occur within this DeepMultiCap environment to not disturb alternate installed packages. 
 
 | Environment Element    | Version/Model |
 | -------- | ------- |
 | GPU  | NVIDIA RTX 2000 Ada Generation |
-| Python  |  |
-| PyTorch  |  |
-| CUDA  |  |
-| cuDNN  |  |
-| DeepMultiCap GitHub Repository | git describe --tags |
-| GitHub Commit ID | git log -n 1 --oneline |
+| Python  | 3.8.20 |
+| PyTorch  | 2.4.1+cu121 |
+| CUDA  | 12.1 |
+| cuDNN  | 90100 |
+| DeepMultiCap GitHub Repository | No official releases published |
+| GitHub Commit ID | 4e93adf |
 
 ## Installation Steps
 
@@ -90,7 +90,7 @@ sudo mv ~/deepmulticap/binvox /usr/local/bin/
 ```
 *(You will be prompted to enter a password. See credentials above if using the previously initialized `labadmindy` account)*.
 
-### 5. Optional: ProcessError Environment Fixes
+### 5. Optional: `CalledProcessError` Environment Fixes
 The following steps were used to resolve `CalledProcessError` and may not be required for every installation.
 
 Update the core package index and install necessary graphics, OpenGL, and window system libraries:
@@ -110,3 +110,29 @@ sed -i 's/np.bool/bool/g' ~/deepmulticap/lib/data/DMCDataset.py
 sed -i 's/marching_cubes_lewiner/marching_cubes/g' ~/deepmulticap/lib/mesh_util.py
 sed -i 's/marching_cubes_lewiner/marching_cubes/g' ~/deepmulticap/lib/mesh_util.py
 ```
+
+## Alternative Installation Process
+**to be completed**
+
+# DeepMultiCap Demo
+To ensure DeepMultiCap is running end-to-end as intended, a demo trial can be completed. 
+
+### 1. Data Download
+Demo data must be downloaded from `pretrained.zip` via the provided [OneDrive link](https://mailstsinghuaeducn-my.sharepoint.com/personal/shaorz20_mails_tsinghua_edu_cn/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fshaorz20%5Fmails%5Ftsinghua%5Fedu%5Fcn%2FDocuments%2FMultiHuman%2Fpretrained%2Ezip&parent=%2Fpersonal%2Fshaorz20%5Fmails%5Ftsinghua%5Fedu%5Fcn%2FDocuments%2FMultiHuman&ga=1). Once unzipped, this folder contains all necessary files to run process the multi-person trial. Unzip the file into the created `deepmulticap` folder on the desktop.
+
+### 2. Running the Demo
+The demo runs using the following command:
+```bash
+cd ~/deepmulticap
+bash demo.sh
+```
+
+### 3. The Outputs
+From the demo file, the outputs will be placed in `deepmulticap/results/dmc_demo/`.
+The outputs consist of `.png` files that include the multi-view images used to create the reconstruction, as well as preliminary generated meshes. One `.png` file is available per subject in the scene.
+<img width="1412" height="231" alt="image" src="https://github.com/user-attachments/assets/46fb8539-0661-4a98-be8b-d12d0c999199" />
+
+Additionally, the detailed `.obj` reconstruction can be visualized in MeshLab, Blender, or a similar 3D reconstruction software. It is shown in MeshLab below. The scene is interactive and allows you to view the mesh from all angles using a metric scale.  
+<img width="1907" height="1137" alt="image" src="https://github.com/user-attachments/assets/d1141ca1-1e2a-4ef4-b678-31f792c3f705" />
+
+
