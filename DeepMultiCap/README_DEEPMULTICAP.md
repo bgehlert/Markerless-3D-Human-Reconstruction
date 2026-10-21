@@ -112,7 +112,22 @@ sed -i 's/marching_cubes_lewiner/marching_cubes/g' ~/deepmulticap/lib/mesh_util.
 ```
 
 ## Alternative Installation Process
-**to be completed**
+An environment.yml file has been prepared where the exact software environment can be replicated, avoiding the extensive library installations above. Ensure that WSL is used as the main terminal and Miniconda/Anaconda has been installed within WSL. Detailed steps are provided earlier in this README.md file.
+Create the environment (includes PyTorch+cu121 and all other dependencies) by [downloading the environment.yml file](environment.yml).
+
+Document where it is stored on the desktop. Change directory to the file location by replacing `path/to/your/project-folder` with the specific file location.
+```bash
+cd path/to/your/project-folder
+```
+Replicate the environment that has been already been created.
+```bash
+conda env create -f environment.yml
+```
+Activate the environment:
+```bash
+conda activate deepmulticap
+```
+Proceed to the demo by following the next section.
 
 # DeepMultiCap Demo
 To ensure DeepMultiCap is running end-to-end as intended, a demo trial can be completed. 
