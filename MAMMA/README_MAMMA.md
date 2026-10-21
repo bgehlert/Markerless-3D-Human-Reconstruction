@@ -1,4 +1,4 @@
-# MAMMA Installation and Demo
+# MAMMA Installation
 The following README.md file outlines the installation steps, and required configurations and downloads regarding the initial implementation of MAMMA (Markerless Accurate Multi-person Motion Acquisition).
 
 | Environment Element    | Version/Model |
@@ -246,3 +246,76 @@ bash gui/scripts/dev.sh
 ```
 
 The Google Chrome browser with the MAMMA interface will open after executing the above. The terminal must remain open for MAMMA to be interactive.
+
+# MAMMA Demo
+The MAMMA demo trials can be ran using the web browser GUI to ensure the pipeline is working end-to-end as intended. During initial testing, non-demo trials were attempted with the GUI and failed at the first pipeline stage. Thus, the GUI can be used for running demo trials only and not self-collected videos. 
+
+## 1. Data Download
+From the Downloading Model Weight Files section, the indoors iPhone sequences have been installed and are ready for implementation. If other trials are desired, download the required files from the  MAMMA website (https://mamma.is.tue.mpg.de/register.php).
+
+## 2. Running the Demo
+Enter the web browser GUI from the WSL terminal as previously shown:
+
+Move inside the downloaded project folder:
+```bash
+cd mamma
+```
+Activate the created MAMMA environment:
+```bash
+conda activate mamma
+```
+Open the user-friendly GUI interface. A demo task is ready to be submitted.
+```bash
+bash gui/scripts/dev.sh
+```
+
+Once inside the GUI, click `Run demo`:
+<img width="1267" height="237" alt="image" src="https://github.com/user-attachments/assets/77b80def-55e3-4d94-8a5d-976427cd1312" />
+
+Select the desired trial group from the list. Note that `data ready` must be displayed for that trial group to be able to run.
+<img width="786" height="89" alt="image" src="https://github.com/user-attachments/assets/231985c0-3e0d-4a30-a539-d405a6c5c16a" />
+
+Select between a quick or full pipeline configuration. `quick` will process only the first 30 frames of the multi-view videos. `full` will process the videos entirely and is more computationally extensive.
+<img width="797" height="225" alt="image" src="https://github.com/user-attachments/assets/9ddc196f-2f49-4d31-a8ae-017dce6de0eb" />
+
+By default, `crossing_arms` is submitted as a preliminary trial. The trial will be sent to the Tasks tab and will update in real time as the pipeline advances through its five stages. 
+<img width="809" height="565" alt="image" src="https://github.com/user-attachments/assets/fb06e7b6-4348-410b-a40b-ed62ff425b20" />
+
+If a different trial, other than `crossing arms` is required, navigate to the Tasks tab and select `+ New task`:
+<img width="1891" height="135" alt="image" src="https://github.com/user-attachments/assets/a90579de-25bc-4a98-a7db-8939bfb76b5f" />
+
+* **Step 1:**
+Determine the absolute path to footage root and path to calibration `.yaml` and enter them in the provided blanks. Specify a capture name under which the outputs will be organized. 
+<img width="1186" height="446" alt="image" src="https://github.com/user-attachments/assets/c49112bd-a2dc-4c71-a59d-efde2d5126f1" />
+
+* **Step 2:**
+Select between a quick or full pipeline configuration from the dropdown.
+<img width="1204" height="210" alt="image" src="https://github.com/user-attachments/assets/75ce3438-463d-4366-b03c-852ade0749d6" />
+
+* **Step 3:**
+Select the desired sequence from the available list. It is suggested to run one sequence at a time to avoid excessive computational time. If `Step 1` has been completed correctly, the camera names should fill under `CAMERAS`. It is possible to run a sequence with only specified cameras; that is selected here. Otherwise, select all cameras. Specify an output directory and output ID if other than the indicated default. For a complete pipeline, ensure all five stages are selected. Note that the stages are sequential and require the outputs from the preceding stage to advance. A sample task has been provided below.
+<img width="1186" height="856" alt="image" src="https://github.com/user-attachments/assets/aca1bf6a-a35d-4615-bd43-70a31e99edca" />
+
+## 3. The Outputs
+Upon completion of the pipeline stages, two main outputs will be available at `home\labadmindy\mamma\output\ma_vis\`.
+
+The first output consists of a `.mp4` video file overlaying the mesh reconstruction onto the original multi-view videos. This file is viewable in a standard media player.
+
+<img width="1899" height="1131" alt="image" src="https://github.com/user-attachments/assets/7f04e0e3-671b-4806-b6d5-447096c5b919" />
+
+The second output consists of a `.rrd` file that displays the reconstructed mesh relative to the camera scene and the point cloud generated for the subject from each multi-view camera. This file is viewable in a standard web browser at [rerun.io](https://rerun.io/).
+
+<img width="1906" height="977" alt="image" src="https://github.com/user-attachments/assets/9e9c1c9d-8944-4620-815c-679bde5cfdc2" />
+
+
+
+
+
+
+
+
+
+
+
+
+
