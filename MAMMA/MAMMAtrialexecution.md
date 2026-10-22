@@ -2,6 +2,8 @@
 ## Folder Organization
 When using your collected videos (i.e., non-demo videos), ensure the below folder organization is used. Synchronized videos should all be placed together in the videos subfolder as .mp4 files.  
 
+<img width="327" height="243" alt="image" src="https://github.com/user-attachments/assets/952bf502-7ab1-4162-b66f-15a7bf9b7876" />
+
 *Figure 1: Required file organization for MAMMA implementation*
 
 ## Command Execution
@@ -71,6 +73,7 @@ or in the general format:
 ```bash
 INFO inference.status: status: ma_pipelinestage[sequencename] -> Done
 ```
+<img width="1835" height="362" alt="image" src="https://github.com/user-attachments/assets/9a31364e-4bb9-4886-9544-592c5b778d5a" />
 
 *Figure 2: Successful command execution and pipeline stage ma\_cap completion for neutral sequence*
 
@@ -85,18 +88,22 @@ INFO inference.status: status: ma_pipelinestage[sequencename] -> Failed
 ERROR inference.runner: ma_pipelinestage[sequencename] exit=XXX -- check output/logs/jobs/labadmindy/runname/ma_pipelinestage/sequencename.err
 ```
 
-These printed lines indicate at which stage the processing failed and where the error file can be located. Follow the file path directory to open the sequencename.err file and determine the cause for failure. Note that if a pipeline stage fails, the subsequent stages will *all* cancel. See below.
+These printed lines indicate at which stage the processing failed and where the error file can be located. Follow the file path directory to open the `sequencename.err` file and determine the cause for failure. Note that if a pipeline stage fails, the subsequent stages will *all* cancel. See below.
 
- 
+ <img width="1827" height="237" alt="image" src="https://github.com/user-attachments/assets/b8820211-4da4-4db4-ae5c-44b018c1fa80" />
+
 *Figure 3: Failed pipeline stage ma_masks and cancelling of all subsequent stages*
 
 ## Primary Outputs 
-After pipeline completion, a preview.mp4 and scene.rrd file will be outputted in the output subfolder at the following file path directory: `/home/labadmindy/mamma/output/ma_vis/runname/`
+After pipeline completion, a `preview.mp4` and `scene.rrd` file will be outputted in the output subfolder at the following file path directory: `/home/labadmindy/mamma/output/ma_vis/runname/`
 
 The .mp4 video file consists of a superimposed mesh overlay onto the original video for each camera view. This is viewable in a standard desktop media player.  
+<img width="1537" height="907" alt="image" src="https://github.com/user-attachments/assets/6093e9cd-bcd4-4b51-86df-14b62c9f2057" />
 
-*Figure 4: .mp4 video overlay file from MAMMA pipeline completion*
+*Figure 4: `.mp4` video overlay file from MAMMA pipeline completion*
 
 The .rrd file consists of a point cloud generated for each camera view as well as a complete 4D body reconstruction of the filmed subject.   
- 
-*Figure 5: .rrd file viewed in [rerun.io](http://rerun.io) from MAMMA pipeline completion*
+
+ <img width="1507" height="790" alt="image" src="https://github.com/user-attachments/assets/7b45f5c0-55f1-4336-986f-db81dc60bcbf" />
+
+*Figure 5: `.rrd file` viewed in [rerun.io](http://rerun.io) from MAMMA pipeline completion*
