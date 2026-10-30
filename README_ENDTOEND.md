@@ -154,14 +154,14 @@ The `.rrd` file consists of a point cloud generated for each camera view as well
 
 
 # DeepMultiCap Pipeline
-Complete steps for running the DeepMultiCap pipeline are provided below. Note that calibration and synchronization steps covered above should be completed before advancing through the following stages.
+Complete steps for running the DeepMultiCap pipeline are provided below. Note that calibration and synchronization steps covered above should be completed before advancing through these pipeline stages.
 
 <img width="992" height="695" alt="image" src="https://github.com/user-attachments/assets/246d7899-53aa-4510-9c3b-c24b9c4ed7c6" />
 
 ### Folder Organization
-When running the DeepMultiCap pipeline, it is recommended to work between two main folders, one where preprocessing steps are completed, and another where inputs are prepared to be fed into the pipeline. The following folder structure is recommended. Note that the `multihuman/` folder and its subfolders should be created from dowloaded the demo data; the rest must be created manually. 
+When running the DeepMultiCap pipeline, it is recommended to work between two main folders, one where preprocessing steps are completed, and another where inputs are organized to be fed into the pipeline. The following folder structure is recommended. Note that the `multihuman/` folder and the subfolders contained within will be created upon downloading the demo data; the other must be created manually. In the image below, `week7trial` is used for preprocessing steps and `multihuman/` is used to organize the inputs. 
 
-<img width="210" height="228" alt="image" src="https://github.com/user-attachments/assets/5bfae97e-90a0-4dcf-af34-143cc3f34625" />
+<img width="207" height="229" alt="image" src="https://github.com/user-attachments/assets/7f94893f-e983-4355-97e7-68bc87b7c614" />
 
 ### Command Execution
 The following deliverable describes the exact processing scripts and commands required to obtain a successful human body model representation. Note that DeepMultiCap cannot directly accept `.mp4` video files and further preprocessing steps are required after video synchronization.
@@ -175,7 +175,7 @@ Move inside the downloaded project folder:
 ```bash
 cd ~/deepmulticap/dataset/week7trial/neutral/
 ```
-*Note that this file directory should be where the `dmc_calibconversionv2.py` script is stored.*
+*Note that this file directory should be where the `dmc_calibconversionv2.py` script is stored. Adjust the directory as needed.*
 
 Activate the created DeepMultiCap environment:
 ```bash
@@ -188,6 +188,8 @@ python3 dmc_calibconversionv2.py
 ```
 
 #### Frame Extraction
+Synchronized video clips must be placed in `deepmulticap/dataset/week7trial/videos/` or as you have otherwise renamed `week7trial`.
+
 Extract the frames from the synchronized videos:
 ```bash
 ffmpeg -i videos/0.mp4 -q:v 2 images/0/%d.jpg
@@ -196,8 +198,9 @@ ffmpeg -i videos/2.mp4 -q:v 2 images/2/%d.jpg
 ffmpeg -i videos/3.mp4 -q:v 2 images/3/%d.jpg
 ```
 #### Mask Generation
+No directory change is needed, assuming `dmc_maskgeneration.py` has been stored in `deepmulticap/dataset/week7trial/neutral/`. 
+
 Create mask subfolders and generate the masks using the `dmc_maskgeneration.py` script:
-Return to the main project folder:
 ```bash
 mkdir -p masks/0 masks/1 masks/2 masks/3
 python3 dmc_maskgeneration.py
@@ -209,7 +212,7 @@ Document where it is stored on the desktop. Change directory to the file locatio
 ```bash
 cd ~/path/to/your/EasyMocap-folder
 ```
-Replicate the environment that has been already been created.
+Replicate the environment that has been already been created:
 ```bash
 conda env create -f environment.yml
 ```
@@ -223,10 +226,10 @@ Organize the EasyMocap files as follows:
 
 <img width="157" height="142" alt="image" src="https://github.com/user-attachments/assets/a4c63493-d027-4d9d-b602-0b1c38d82a9b" />
 
-The `videos/` folder should contain the four synchronized `.mp4` videos, and the `images/` folder should contain the subfolders of extracted frames. These files have already been obtained by following earlier steps. Organize the files by copy/pasting or using terminal commands. Note that when these files are copy/pasted, a `ZONE.Identifier` file will accompany each file. These will need to be deleted from everywhere they appear.
+The `videos/` folder should contain the four synchronized `.mp4` videos, and the `images/` folder should contain the subfolders of extracted frames per camera. These files have already been obtained by following earlier steps. Organize the files by copy/pasting or using terminal commands. Note that when these files are copy/pasted, a `ZONE.Identifier` file will accompany each file - these can be deleted.
 
 Download each of the model weights and place them at `EasyMocap/data/models/yolov4.weights` and `EasyMocap/data/models/pose_hrnet_w48_384x288.pth`. 
-It may be possible to directly extract the model weights to these locations after downloading.
+It may be possible to directly extract the model weights to these locations upon downloading.
 
 ```bash
 mkdir -p data/models
@@ -239,7 +242,7 @@ python3 apps/preprocess/extract_keypoints.py week8trial --mode yolo-hrnet
 ```
 An `annots/` folder will be generated with `0/`, `1/`, `2/`, `3/` subfolders populated with `.json` files for each frame.
 
-*Note that week8trial explicitly refers to the folder where the images, videos, and calibration files have been copied. This may be different depending on how you have organized your respective files.*
+*Note that week8trial explicitly refers to the folder where the images, videos, and calibration files have been copied. This may be different depending on how you have named your respective directories.*
 
 Complete the EasyMocap pipeline by running the `mv1p.py` demo script on your recorded data:
 ```bash
@@ -249,7 +252,12 @@ python3 apps/demo/mv1p.py week8trial --out week8trial/output --vis_det --vis_rep
 The `.json` files contained within the `smpl/` output folder will be used for the DeepMultiCap pipeline.
 
 #### Obtaining the SMPL-X Model
-Upon completion of the EasyMocap pipeline, the outputted `.json` files must be converted to `.npz` files. 
+Register for a free account at the SMPL website (https://smpl.is.tue.mpg.de/) and navigate to the "Downloads" tab.
+
+Download the following module: Download version 1.1.0 for Python 2.7 (female/male/neutral, 300 shape PCs)
+<img width="216" height="111" alt="image" src="https://github.com/user-attachments/assets/bc992a76-e624-4b75-bbdd-3d9c79451f39" />
+
+Extract the three model weights to `EasyMocap/data/models/smpl` and rename them as follows: `SMPL_FEMALE.pkl`, `SMPL_MALE.pkl`, `SMPL_NEUTRAL.pkl`
 
 Return back to the DeepMultiCap project folder and virtual environment:
 ```bash
@@ -271,6 +279,7 @@ python3 convert_with_easymocapv4.py
 A `XXXXXX.obj` file will be saved directly to `deepmulticap/dataset/week7trial/neutral/`
 
 #### Preparing a Configuration File
+Refer to [sampleconfig.yaml](sampleconfig.yaml) provided in the repository. It is suggested to download this file, modify the desired session name, and move this file to the following directory: `deepmulticap/configs/`. Upon completion of the pipeline, outputs will be organized under the given session name.
 
 ### Pipeline Processing
 Before running the DeepMultiCap pipeline, confirm there is the following prepared:
@@ -295,7 +304,8 @@ python apps/eval_3d.py --config configs/week7trial.yaml --dataroot dataset/multi
 *Note that `week7trial.yaml` and `/multihuman` will be replaced with your specific configuration file name and nested folder, respectively.* 
 
 ### Primary Outputs
-Upon pipeline completion, an `inference_eval_subfoldername_0.obj` and `inference_eval_foldername_0.png` file will be outputted in the results subfolder at the following file path directory: `home/labadmindy/deepmulticap/results/projectfoldername/. 
+Upon pipeline completion, an `inference_eval_subfoldername_0.obj` and `inference_eval_subfoldername_0.png` file will be outputted in the results subfolder at the following file path directory: `home/labadmindy/deepmulticap/results/name/`. The name is as specified in the custom configuration file.
+
 DeepMultiCap will provide these two outputs per inputted frame.
 
 The `.obj` 3D file consists of a textured mesh viewable in a 3D viewer, such as MeshLab or Blender. 
